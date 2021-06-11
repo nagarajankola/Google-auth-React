@@ -2,13 +2,14 @@ import React, { useState,useEffect  } from "react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 import "./App.css";
 
-const clientId =
-  "817036902277-v1nlnkaf1hup0cqjrs0gsfgqniuufrgo.apps.googleusercontent.com";
+const clientId ="your google client ID";
 
 function App() {
 
   const [showloginButton, setShowloginButton] = useState(true);
   const [showlogoutButton, setShowlogoutButton] = useState(false);
+
+  const [title, setTitle] = useState("Please Login!")
 
   useEffect(()=>{
     // from session data 
@@ -19,11 +20,13 @@ function App() {
       console.log("Email: " + myLocalStorageData.email);
       setShowloginButton(false);
       setShowlogoutButton(true);
+      setTitle("Yay! You are logged in. <3")
     }else{
       console.log("No users found!");
     }
   },[])
 
+  // Login Success 
   const onLoginSuccess = (res) => {
 
     console.log("Login Success:", res.profileObj);
@@ -39,10 +42,14 @@ function App() {
     setShowlogoutButton(true);
   };
 
+
+  // Login Failure 
   const onLoginFailure = (res) => {
     console.log("Login Failed:", res);
   };
 
+
+  // Sign out 
   const onSignoutSuccess = () => {
 
     alert("You have been logged out successfully");
@@ -59,7 +66,9 @@ function App() {
   return (
     <div className="g-signin">
       <div className="App">
-        <h1>Simple login system with google authentication</h1>
+        <h1>Simple login system with google authentication & session</h1>
+        <br />
+        <h3>{title}</h3>
         <div>
             { showloginButton ?
                 <GoogleLogin
